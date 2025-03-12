@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -14,6 +13,7 @@ import (
 
 const (
 	weather = "https://api.weather.gov/gridpoints/OTX/140,90/forecast"
+	prompt  = "Your Forecast For Today (f5 to refresh):\n\n%s"
 )
 
 func main() {
@@ -35,7 +35,7 @@ type Model struct {
 // Init the tui. The returned tea.Cmd represents any initial
 // I/O or setup type functions we want to execute
 func (m Model) Init() tea.Cmd {
-	return getForecast
+	return nil
 }
 
 // Update the model
@@ -49,27 +49,18 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case "f5":
 			// let's trigger and update
-			m.message = "refreshing"
-			return m, getForecast
+
 		}
+
 	case Forecast:
-		if msg.Error != nil {
-			m.message = fmt.Sprintf("got an error: %s", msg.Error.Error())
-		} else {
-			m.forecast = msg.Data
-			m.message = ""
-		}
+		// update our model with the forecast data
 	}
 
 	return m, nil
 }
 
 func (m Model) View() string {
-	if m.message != "" {
-		return m.message
-	}
-
-	return fmt.Sprintf("Your Forecast For Today (f5 to refresh):\n\n%s", m.forecast)
+	return "'"
 }
 
 // Forecast is what we are going to return
