@@ -7,14 +7,13 @@ Popular and quite functional tui framework. BUT - remember, you are writing a UI
 
 ### Basics
 
-It's uses a `Model` - `View` - `Update` pattern ala `Elm` or `Redux`.
+It's uses a `Model` - `View` - `Update` pattern ala `Elm` or maybe more familiar `Redux`.
 
 * Model - State of the application
 * View - How to render the state
 * Update - Handle events that happen in your app
 
 In BubbleTea, that translates to the interface:
-
 
 ```golang
 // Model contains the program's state as well as its core functions.
@@ -32,3 +31,5 @@ type Model interface {
 	View() string
 }
 ```
+
+In concept it is very simple....

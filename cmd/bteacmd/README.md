@@ -2,7 +2,7 @@
 
 ## Doing Something Useful
 
-This whole `Elm`y thing is based on handling "events" that "update" you model, which then trigger a re-render. So, how do you do events?
+This whole `Elm`y thing is based on handling "events" that "update" your model, which then trigger a re-render. So, how do you do events?
 
 __BubbleTea Commands__:
 
@@ -12,7 +12,7 @@ type Msg interface{}
 type Cmd func() Msg
 ```
 
-Long story short: you run a function that returns anything. Helpful!
+Long story short: you run a function that returns _anything_. Helpful!
 
 You will remember from our interface definition of the `Model` that both the `Init` and `Update` functions returned an optional `Cmd` - this is to allow you to trigger async actions that you want to affect your model and thus your view. If you have a bunch of things you want to do use `tea.Batch(...tea.Cmd)` which will just iterate over all the commands and run them.
 
