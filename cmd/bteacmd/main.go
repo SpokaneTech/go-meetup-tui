@@ -35,7 +35,7 @@ type Model struct {
 // Init the tui. The returned tea.Cmd represents any initial
 // I/O or setup type functions we want to execute
 func (m Model) Init() tea.Cmd {
-	return nil
+	return getForecast
 }
 
 // Update the model
@@ -49,18 +49,19 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case "f5":
 			// let's trigger and update
-
+			m.message = "updating..."
+			return m, getForecast
 		}
 
 	case Forecast:
-		// update our model with the forecast data
+		m.message = msg.Data
 	}
 
 	return m, nil
 }
 
 func (m Model) View() string {
-	return "'"
+	return m.message
 }
 
 // Forecast is what we are going to return

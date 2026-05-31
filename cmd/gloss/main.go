@@ -19,7 +19,9 @@ func main() {
 
 // Model is the main container for our tui.
 // It must satisfy the tea `model` interface
-type Model struct{}
+type Model struct {
+	bold, italic, strike, underline, background bool
+}
 
 // Init the tui. The returned tea.Cmd represents any initial
 // I/O or setup type functions we want to execute
@@ -36,6 +38,21 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+c", "q":
 			// return the model, and ask for tea to quit
 			return m, tea.Quit
+		case "b":
+			m.bold = !m.bold
+			return m, nil
+		case "s":
+			m.strike = !m.strike
+			return m, nil
+		case "i":
+			m.italic = !m.italic
+			return m, nil
+		case "u":
+			m.underline = !m.underline
+			return m, nil
+		case "B":
+			m.background = !m.background
+			return m, nil
 		}
 	}
 
@@ -63,8 +80,12 @@ var (
 func (m Model) View() string {
 	doc := strings.Builder{}
 
-	// doc.WriteString(renderStyle.Render("has style much!"))
-	// doc.WriteString(helpStyle.Render("\nq: exit • b: bold • s: strike • i: italic • u: underline • B: background"))
+	renderStyle := windowStyle.Bold(m.bold).Strikethrough(m.strike).Italic(m.italic).Underline(m.underline) //.Background(m.background)
+	if m.background {
+		renderStyle = renderStyle.Background(bgColor).Foreground(fgColor)
+	}
+	doc.WriteString(renderStyle.Render("has style much!"))
+	doc.WriteString(helpStyle.Render("\nq: exit • b: bold • s: strike • i: italic • u: underline • B: background"))
 
 	return doc.String()
 }
